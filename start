@@ -1,0 +1,20 @@
+#!/bin/sh
+set -x
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ENV_DIR="${SCRIPT_DIR}/env"
+
+mkdir -p "${SCRIPT_DIR}"/Results
+chmod -R 777 "${SCRIPT_DIR}"/Results 
+
+if [ ! -d "${ENV_DIR}" ] ; then
+	python3 -m venv "${ENV_DIR}"
+	${ENV_DIR}/bin/python3 -m pip install --upgrade pip
+	${ENV_DIR}/bin/python3 -m pip install python-gitlab
+  	${ENV_DIR}/bin/python3 -m pip install junitparser
+  	${ENV_DIR}/bin/python3 -m pip install pandas
+  	${ENV_DIR}/bin/python3 -m pip install asyncio
+  	${ENV_DIR}/bin/python3 -m pip install aio-gitlab
+fi
+
+${ENV_DIR}/bin/python3 f.py
